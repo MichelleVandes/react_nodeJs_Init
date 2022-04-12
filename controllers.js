@@ -28,6 +28,10 @@ const bcrypt = require('bcrypt')
 exports.signup = (req, res, next) => {
   console.log('arrivé dans controllers createUser');
  
+const fs = require("fs");
+
+
+
   delete req.body._id;
   delete req.body.confirmPassword;
    console.log(req.body);
