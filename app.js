@@ -49,6 +49,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.all("/signup", userRoutes);
+app.all("/login", userRoutes);
 app.all("/user/:email", userRoutes);
 
 
