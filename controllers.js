@@ -1,5 +1,6 @@
-const User = require('./models/user')
-const bcrypt = require('bcrypt')
+const User = require('./models/user');
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 
 // Nouveau profil
 exports.signup = (req, res, next) => {
@@ -28,10 +29,11 @@ exports.login = (req, res) => {
    console.log(`entré dans login ${req.body.email}`);
   User.findOne({ email: req.body.email })
     .then((user) => {
-      console.log(`top1`);
-      If(!user); // si pas de concordence dans MongoDb
+      console.log(`top1 :`, user);
+      console.log(`user trouvé :${user.name}`);
+      if (!user) // si pas de concordence dans MongoDb
       {
-         console.log(`top2`);
+        console.log(`top2`, user);
         return res.status(400).json({ error: "Email non trouvé" });
       }           // on retourne l'erreur de connexion et on sort avec return
    console.log(`top3`);
@@ -39,11 +41,21 @@ exports.login = (req, res) => {
       bcrypt
         .compare(req.body.password, user.password)
         .then((passwordValid) => {
-           console.log(`top4`);
+          console.log(`top4`);
           if (!passwordValid) {
-            return res.status(401).json({error: 'Mot de passe incorrect !!!'})
+            return res
+              .status(401)
+              .json({ error: "Mot de passe incorrect !!!" });
           }
-          res.status(200).json({user })
+          const data = user;
+          //var token = jwt.sign({ foo: 'bar' }, privateKey, { algorithm: 'RS256'});
+          const token = jwt.sign(
+            { userID: user._id }, 
+            "chaineAleatoire", 
+            {expiresIn: '1h'});
+            
+          res.status(200).json({ user, token: token });
+          console.log(user);
         })
         .catch((error) => { 
           console.log(`top5`);

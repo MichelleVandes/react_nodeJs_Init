@@ -3,19 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser")
 const userRoutes = require("./router.js");
 const app = express();
-// const codesPostaux = require("codes-postaux");
 
-// app.get("/cp/:cp", (req, res) => {
-//   const id = Number(req.params.cp);
-//   const tab = codesPostaux.find(id);
-//   if (tab && tab >[]){
-//       res.json(tab);
-//        // return res.status(404).json({error: new Error('objet non trouvé')}) 
-//     } else {
-//         res.status(404).json({ error:("objet non trouvé") }); 
-//     };
-  
-//     });
 
 mongoose
   .connect(
